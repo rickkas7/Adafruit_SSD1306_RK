@@ -150,7 +150,7 @@ class Adafruit_SSD1306 : public Adafruit_GFX {
 
  private:
   size_t _width, _height;
-  int8_t _i2caddr = 0, _vccstate = 0, sid = 0, sclk = 0, dc = 0, rst = 0, cs = 0;
+  int8_t _i2caddr = 0, _vccstate = 0, sid = -1, sclk = 0, dc = 0, rst = 0, cs = 0;
   void fastSPIwrite(uint8_t c);
 
   boolean hwSPI = false;

@@ -50,15 +50,15 @@ void Adafruit_SSD1306::drawPixel(int16_t x, int16_t y, uint16_t color) {
   switch (getRotation()) {
   case 1:
     ssd1306_swap(x, y);
-    x = WIDTH - x - 1;
+    x = _width - x - 1;
     break;
   case 2:
-    x = WIDTH - x - 1;
-    y = HEIGHT - y - 1;
+    x = _width - x - 1;
+    y = _height - y - 1;
     break;
   case 3:
     ssd1306_swap(x, y);
-    y = HEIGHT - y - 1;
+    y = _height - y - 1;
     break;
   }
 
@@ -185,31 +185,32 @@ void Adafruit_SSD1306::begin(uint8_t vccstate, uint8_t i2caddr, bool reset) {
   ssd1306_command(SSD1306_SEGREMAP | 0x1);
   ssd1306_command(SSD1306_COMSCANDEC);
 
- #if defined SSD1306_128_32
-  ssd1306_command(SSD1306_SETCOMPINS);                    // 0xDA
-  ssd1306_command(0x02);
-  ssd1306_command(SSD1306_SETCONTRAST);                   // 0x81
-  ssd1306_command(0x8F);
+  if (_width == 128 && _height == 32) {
+	  ssd1306_command(SSD1306_SETCOMPINS);                    // 0xDA
+	  ssd1306_command(0x02);
+	  ssd1306_command(SSD1306_SETCONTRAST);                   // 0x81
+	  ssd1306_command(0x8F);
+  }
 
-#elif defined SSD1306_128_64
-  ssd1306_command(SSD1306_SETCOMPINS);                    // 0xDA
-  ssd1306_command(0x12);
-  ssd1306_command(SSD1306_SETCONTRAST);                   // 0x81
-  if (vccstate == SSD1306_EXTERNALVCC)
-    { ssd1306_command(0x9F); }
-  else
-    { ssd1306_command(0xCF); }
+  if (_width == 128 && _height == 64) {
+	  ssd1306_command(SSD1306_SETCOMPINS);                    // 0xDA
+	  ssd1306_command(0x12);
+	  ssd1306_command(SSD1306_SETCONTRAST);                   // 0x81
+	  if (vccstate == SSD1306_EXTERNALVCC)
+		{ ssd1306_command(0x9F); }
+	  else
+		{ ssd1306_command(0xCF); }
+  }
 
-#elif defined SSD1306_96_16
-  ssd1306_command(SSD1306_SETCOMPINS);                    // 0xDA
-  ssd1306_command(0x2);   //ada x12
-  ssd1306_command(SSD1306_SETCONTRAST);                   // 0x81
-  if (vccstate == SSD1306_EXTERNALVCC)
-    { ssd1306_command(0x10); }
-  else
-    { ssd1306_command(0xAF); }
-
-#endif
+  if (_width == 96 && _height == 16) {
+	  ssd1306_command(SSD1306_SETCOMPINS);                    // 0xDA
+	  ssd1306_command(0x2);   //ada x12
+	  ssd1306_command(SSD1306_SETCONTRAST);                   // 0x81
+	  if (vccstate == SSD1306_EXTERNALVCC)
+		{ ssd1306_command(0x10); }
+	  else
+		{ ssd1306_command(0xAF); }
+  }
 
   ssd1306_command(SSD1306_SETPRECHARGE);                  // 0xd9
   if (vccstate == SSD1306_EXTERNALVCC)
