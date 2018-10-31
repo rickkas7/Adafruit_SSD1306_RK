@@ -21,7 +21,7 @@ All text above, and the splash screen must be included in any redistribution
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-Adafruit_SSD1306 display(-1);
+Adafruit_SSD1306 display(128, 64, -1);
 
 #define NUMFLAKES 10
 #define XPOS 0
