@@ -27,9 +27,9 @@
 #define SCREEN_HEIGHT 64 // OLED display height, in pixels
 
 // Hardware SPI (recommended)
-#define OLED_DC     A4
-#define OLED_CS     A3
-#define OLED_RESET  A5
+#define OLED_DC     A1
+#define OLED_CS     A2
+#define OLED_RESET  A0
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT,
   &SPI, OLED_DC, OLED_RESET, OLED_CS);
 

@@ -41,6 +41,7 @@
 #define SPI_HAS_TRANSACTION
 #define SPISettings __SPISettings
 #define BUFFER_LENGTH 32
+#define SPI_HAS_TRANSACTION 1
 #else
 #include <Wire.h>
 #include <SPI.h>
@@ -130,6 +131,24 @@ class Adafruit_SSD1306 : public Adafruit_GFX {
     int8_t dc_pin, int8_t rst_pin, int8_t cs_pin);
   Adafruit_SSD1306(uint8_t w, uint8_t h, SPIClass *spi,
     int8_t dc_pin, int8_t rst_pin, int8_t cs_pin, uint32_t bitrate=8000000UL);
+
+#ifdef SYSTEM_VERSION_v151RC1
+  // In 1.5.0-rc.1, SPI interfaces are handled differently. You can still pass in SPI, SPI1, etc.
+	// but the code to handle it varies
+  Adafruit_SSD1306(uint8_t w, uint8_t h, ::particle::SpiProxy<HAL_SPI_INTERFACE1> *spiProxy, int8_t dc_pin, int8_t rst_pin, int8_t cs_pin, uint32_t bitrate=8000000UL) : 
+    Adafruit_SSD1306(w, h, &spiProxy->instance(), dc_pin, rst_pin, cs_pin, bitrate) {};
+
+#if Wiring_SPI1
+  Adafruit_SSD1306(uint8_t w, uint8_t h, ::particle::SpiProxy<HAL_SPI_INTERFACE2> *spiProxy, int8_t dc_pin, int8_t rst_pin, int8_t cs_pin, uint32_t bitrate=8000000UL) : 
+    Adafruit_SSD1306(w, h, &spiProxy->instance(), dc_pin, rst_pin, cs_pin, bitrate) {};
+#endif
+
+#if Wiring_SPI2
+  Adafruit_SSD1306(uint8_t w, uint8_t h, ::particle::SpiProxy<HAL_SPI_INTERFACE3> *spiProxy, int8_t dc_pin, int8_t rst_pin, int8_t cs_pin, uint32_t bitrate=8000000UL) : 
+    Adafruit_SSD1306(w, h, &spiProxy->instance(), dc_pin, rst_pin, cs_pin, bitrate) {};
+#endif
+
+#endif /* SYSTEM_VERSION_v151RC1 */
 
   // DEPRECATED CONSTRUCTORS - for back compatibility, avoid in new projects
   Adafruit_SSD1306(int8_t mosi_pin, int8_t sclk_pin, int8_t dc_pin,

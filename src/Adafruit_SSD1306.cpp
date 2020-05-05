@@ -128,6 +128,14 @@
    }                        \
  } ///< Wire, SPI or bitbang transfer end
 
+static SPIClass *getDefaultSPI() {
+#ifdef SYSTEM_VERSION_v151RC1
+  return &SPI.instance();
+#else
+  return &SPI;
+#endif
+}
+
 // CONSTRUCTORS, DESTRUCTOR ------------------------------------------------
 
 /*!
@@ -232,7 +240,7 @@ Adafruit_SSD1306::Adafruit_SSD1306(uint8_t w, uint8_t h,
 */
 Adafruit_SSD1306::Adafruit_SSD1306(uint8_t w, uint8_t h, SPIClass *spi,
   int8_t dc_pin, int8_t rst_pin, int8_t cs_pin, uint32_t bitrate) :
-  Adafruit_GFX(w, h), spi(spi ? spi : &SPI), wire(NULL), buffer(NULL),
+  Adafruit_GFX(w, h), spi(spi ? spi : getDefaultSPI()), wire(NULL), buffer(NULL),
   mosiPin(-1), clkPin(-1), dcPin(dc_pin), csPin(cs_pin), rstPin(rst_pin) {
 #ifdef SPI_HAS_TRANSACTION
   spiSettings = SPISettings(bitrate, MSBFIRST, SPI_MODE0);
@@ -295,7 +303,7 @@ Adafruit_SSD1306::Adafruit_SSD1306(int8_t mosi_pin, int8_t sclk_pin,
 */
 Adafruit_SSD1306::Adafruit_SSD1306(int8_t dc_pin, int8_t rst_pin,
   int8_t cs_pin) : Adafruit_GFX(SSD1306_LCDWIDTH, SSD1306_LCDHEIGHT),
-  spi(&SPI), wire(NULL), buffer(NULL), mosiPin(-1), clkPin(-1),
+  spi(getDefaultSPI()), wire(NULL), buffer(NULL), mosiPin(-1), clkPin(-1),
   dcPin(dc_pin), csPin(cs_pin), rstPin(rst_pin) {
 #ifdef SPI_HAS_TRANSACTION
   spiSettings = SPISettings(8000000, MSBFIRST, SPI_MODE0);

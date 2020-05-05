@@ -13,5 +13,5 @@
   electron: [latest]
   xenon: [latest]
 - build: examples/ssd1306_128x64_spi
-  photon: [latest]
+  photon: [latest,1.5.1-rc.1]
   argon: [latest]
