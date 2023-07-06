@@ -38,10 +38,17 @@
 
 #if defined(PARTICLE)
 #include "Particle.h"
+#ifndef SPI_HAS_TRANSACTION
 #define SPI_HAS_TRANSACTION
+#endif
+
 #define SPISettings __SPISettings
 #define BUFFER_LENGTH 32
+
+#ifndef SPI_HAS_TRANSACTION
 #define SPI_HAS_TRANSACTION 1
+#endif
+
 #else
 #include <Wire.h>
 #include <SPI.h>
