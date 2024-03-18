@@ -57,6 +57,10 @@ ATtiny85    |            |      X     |          |
 
 # Version History
 
+### 1.3.3 (2024-03-18)
+
+- Updated to Adafruit_GFX_RK 1.5.8 to fix compile error.
+
 ### 1.3.1 (2020-05-04)
 
 - Fix compiler error for undefined conversion to SpiClass with 1.5.1-rc.1.
